@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         httpMessageManager = exApp.httpMessageManager
 
         val exWorkManager = exApp.exWorkManager
+        val exNotificationManager = exApp.exNotificationManager
 
         fetchExMessages()
 
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         block_button.setOnClickListener {
-            exWorkManager.stopWork()
+            exNotificationManager.showMessage(getRandomMessage())
         }
     }
 

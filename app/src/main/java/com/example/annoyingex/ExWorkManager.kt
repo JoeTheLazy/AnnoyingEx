@@ -7,7 +7,7 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import java.util.concurrent.TimeUnit
 
-class ExWorkManager(private val context: Context) {
+class ExWorkManager(context: Context) {
 
     private var workManager = WorkManager.getInstance(context)
 
