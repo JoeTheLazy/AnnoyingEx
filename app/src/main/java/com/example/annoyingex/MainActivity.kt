@@ -7,19 +7,26 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var httpMessageManager: HttpMessageManager
-    lateinit var messages: List<String>
+    private lateinit var httpMessageManager: HttpMessageManager
+    private var messages: MutableList<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        httpMessageManager = (application as AnnoyingExApp).httpMessageManager
+        val exApp = (application as AnnoyingExApp)
+        httpMessageManager = exApp.httpMessageManager
+
+        val exWorkManager = exApp.exWorkManager
 
         fetchExMessages()
 
         start_button.setOnClickListener {
-            toastMessage(messages.toString())
+            exWorkManager.startMessaging()
+        }
+
+        block_button.setOnClickListener {
+            exWorkManager.stopWork()
         }
     }
 
@@ -27,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private fun fetchExMessages() {
         httpMessageManager.getExMessages (
             { exMessages ->
-                messages = exMessages.messages
+                messages = exMessages.messages.toMutableList()
             },
             {
                 toastMessage("Error! Something went wrong!")
@@ -37,5 +44,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun toastMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun getRandomMessage(): String {
+        messages?.let {
+            return it.random()
+        } ?: run {
+            return "unable to retrieve message"
+        }
     }
 }
