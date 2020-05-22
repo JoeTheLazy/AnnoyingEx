@@ -1,10 +1,7 @@
 package com.example.annoyingex
 
 import android.content.Context
-import androidx.work.Constraints
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkInfo
-import androidx.work.WorkManager
+import androidx.work.*
 import java.util.concurrent.TimeUnit
 
 class ExWorkManager(context: Context) {
@@ -16,15 +13,13 @@ class ExWorkManager(context: Context) {
             stopWork()
         }
 
-        /*
         val constraints = Constraints.Builder()
             .setRequiresCharging(true)
-        */
+            .build()
 
-        // TODO: Set request type to be periodic work
-        val workRequest = OneTimeWorkRequestBuilder<ExMessageWorker>()
-            .setInitialDelay(5000, TimeUnit.MILLISECONDS)
-            //.setConstraints(constraints)
+        val workRequest = PeriodicWorkRequestBuilder<ExMessageWorker>(20, TimeUnit.MINUTES)
+            .setInitialDelay(5, TimeUnit.SECONDS)
+            .setConstraints(constraints)
             .addTag(EX_WORK_REQUEST_TAG)
             .build()
 

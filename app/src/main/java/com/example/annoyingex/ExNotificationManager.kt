@@ -31,6 +31,7 @@ class ExNotificationManager(private val context: Context) {
             .setContentTitle("Alice Sweeney")
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .build()
